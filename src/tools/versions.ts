@@ -23,14 +23,11 @@ interface AppStoreVersionSubmission {
 
 export const versionsTools = {
   create_app_version: {
-    description:
-      "Create a new App Store version for an app. Use this to prepare a new release.",
+    description: "Create a new App Store version for an app. Use this to prepare a new release.",
     inputSchema: z.object({
       app_id: z.string().describe("The App Store Connect app ID"),
       version_string: z.string().describe("Version number (e.g., 1.2.3)"),
-      platform: z
-        .enum(["IOS", "MAC_OS", "TV_OS", "VISION_OS"])
-        .describe("Target platform"),
+      platform: z.enum(["IOS", "MAC_OS", "TV_OS", "VISION_OS"]).describe("Target platform"),
       release_type: z
         .enum(["MANUAL", "AFTER_APPROVAL", "SCHEDULED"])
         .default("AFTER_APPROVAL")
@@ -38,9 +35,7 @@ export const versionsTools = {
       earliest_release_date: z
         .string()
         .optional()
-        .describe(
-          "For SCHEDULED release type, ISO 8601 date (e.g., 2024-03-15T00:00:00Z)"
-        ),
+        .describe("For SCHEDULED release type, ISO 8601 date (e.g., 2024-03-15T00:00:00Z)"),
     }),
     handler: async (input: {
       app_id: string;
@@ -106,14 +101,8 @@ export const versionsTools = {
         .enum(["MANUAL", "AFTER_APPROVAL", "SCHEDULED"])
         .optional()
         .describe("When to release after approval"),
-      earliest_release_date: z
-        .string()
-        .optional()
-        .describe("For SCHEDULED release, ISO 8601 date"),
-      downloadable: z
-        .boolean()
-        .optional()
-        .describe("Whether the version is downloadable"),
+      earliest_release_date: z.string().optional().describe("For SCHEDULED release, ISO 8601 date"),
+      downloadable: z.boolean().optional().describe("Whether the version is downloadable"),
     }),
     handler: async (input: {
       version_id: string;
@@ -145,10 +134,7 @@ export const versionsTools = {
         },
       };
 
-      const response = await patch<AppStoreVersion>(
-        `/appStoreVersions/${input.version_id}`,
-        body
-      );
+      const response = await patch<AppStoreVersion>(`/appStoreVersions/${input.version_id}`, body);
 
       return {
         content: [
@@ -192,10 +178,7 @@ export const versionsTools = {
         },
       };
 
-      const response = await post<AppStoreVersionSubmission>(
-        "/appStoreVersionSubmissions",
-        body
-      );
+      const response = await post<AppStoreVersionSubmission>("/appStoreVersionSubmissions", body);
 
       return {
         content: [
@@ -225,9 +208,7 @@ export const versionsTools = {
       version_id: z.string().describe("The App Store version ID"),
     }),
     handler: async (input: { version_id: string }) => {
-      const response = await get<AppStoreVersion>(
-        `/appStoreVersions/${input.version_id}`
-      );
+      const response = await get<AppStoreVersion>(`/appStoreVersions/${input.version_id}`);
 
       const stateDescriptions: Record<string, string> = {
         DEVELOPER_REMOVED_FROM_SALE: "Removed from sale by developer",
@@ -263,8 +244,7 @@ export const versionsTools = {
                 versionString: response.data.attributes.versionString,
                 platform: response.data.attributes.platform,
                 state: state,
-                stateDescription:
-                  stateDescriptions[state] || "Unknown state",
+                stateDescription: stateDescriptions[state] || "Unknown state",
                 releaseType: response.data.attributes.releaseType,
                 createdDate: response.data.attributes.createdDate,
               },
@@ -282,10 +262,7 @@ export const versionsTools = {
       "Get localization information for an App Store version (what's new, description, etc.).",
     inputSchema: z.object({
       version_id: z.string().describe("The App Store version ID"),
-      locale: z
-        .string()
-        .optional()
-        .describe("Filter by locale (e.g., en-US, ja, fr-FR)"),
+      locale: z.string().optional().describe("Filter by locale (e.g., en-US, ja, fr-FR)"),
     }),
     handler: async (input: { version_id: string; locale?: string }) => {
       const params: Record<string, string | undefined> = {};
@@ -322,11 +299,7 @@ export const versionsTools = {
         content: [
           {
             type: "text" as const,
-            text: JSON.stringify(
-              { localizations, total: localizations.length },
-              null,
-              2
-            ),
+            text: JSON.stringify({ localizations, total: localizations.length }, null, 2),
           },
         ],
       };

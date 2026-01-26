@@ -104,13 +104,10 @@ export const appResourceTemplates = {
     description: "Customer reviews for a specific app",
     mimeType: "application/json",
     handler: async (params: { appId: string }) => {
-      const response = await get<CustomerReview[]>(
-        `/apps/${params.appId}/customerReviews`,
-        {
-          limit: "50",
-          sort: "-createdDate",
-        }
-      );
+      const response = await get<CustomerReview[]>(`/apps/${params.appId}/customerReviews`, {
+        limit: "50",
+        sort: "-createdDate",
+      });
 
       const reviews = response.data.map((review) => ({
         id: review.id,

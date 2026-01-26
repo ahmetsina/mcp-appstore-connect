@@ -53,10 +53,7 @@ export class RateLimitError extends Error {
 /**
  * Parse error response from App Store Connect API.
  */
-export function parseErrorResponse(
-  status: number,
-  body: unknown
-): AppStoreConnectError {
+export function parseErrorResponse(status: number, body: unknown): AppStoreConnectError {
   const isRetryable = status >= 500 || status === 429;
 
   if (typeof body === "object" && body !== null && "errors" in body) {

@@ -278,49 +278,41 @@ function registerResources() {
   }
 
   // Resource templates
-  server.resource(
-    "appstore://apps/{appId}",
-    "App Details",
-    async (uri) => {
-      const match = uri.href.match(/appstore:\/\/apps\/([^/]+)$/);
-      if (!match) {
-        throw new Error("Invalid app URI format");
-      }
-      const template = appResourceTemplates["appstore://apps/{appId}"];
-      const text = await template.handler({ appId: match[1] });
-      return {
-        contents: [
-          {
-            uri: uri.href,
-            mimeType: template.mimeType,
-            text,
-          },
-        ],
-      };
+  server.resource("appstore://apps/{appId}", "App Details", async (uri) => {
+    const match = uri.href.match(/appstore:\/\/apps\/([^/]+)$/);
+    if (!match) {
+      throw new Error("Invalid app URI format");
     }
-  );
+    const template = appResourceTemplates["appstore://apps/{appId}"];
+    const text = await template.handler({ appId: match[1] });
+    return {
+      contents: [
+        {
+          uri: uri.href,
+          mimeType: template.mimeType,
+          text,
+        },
+      ],
+    };
+  });
 
-  server.resource(
-    "appstore://apps/{appId}/reviews",
-    "App Reviews",
-    async (uri) => {
-      const match = uri.href.match(/appstore:\/\/apps\/([^/]+)\/reviews$/);
-      if (!match) {
-        throw new Error("Invalid reviews URI format");
-      }
-      const template = appResourceTemplates["appstore://apps/{appId}/reviews"];
-      const text = await template.handler({ appId: match[1] });
-      return {
-        contents: [
-          {
-            uri: uri.href,
-            mimeType: template.mimeType,
-            text,
-          },
-        ],
-      };
+  server.resource("appstore://apps/{appId}/reviews", "App Reviews", async (uri) => {
+    const match = uri.href.match(/appstore:\/\/apps\/([^/]+)\/reviews$/);
+    if (!match) {
+      throw new Error("Invalid reviews URI format");
     }
-  );
+    const template = appResourceTemplates["appstore://apps/{appId}/reviews"];
+    const text = await template.handler({ appId: match[1] });
+    return {
+      contents: [
+        {
+          uri: uri.href,
+          mimeType: template.mimeType,
+          text,
+        },
+      ],
+    };
+  });
 }
 
 /**

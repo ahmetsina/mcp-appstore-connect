@@ -128,9 +128,7 @@ async function makeRequest<T>(
         const retryAfterSeconds = retryAfter ? parseInt(retryAfter, 10) : undefined;
 
         if (attempt < MAX_RETRIES - 1) {
-          const delay = retryAfterSeconds
-            ? retryAfterSeconds * 1000
-            : calculateBackoff(attempt);
+          const delay = retryAfterSeconds ? retryAfterSeconds * 1000 : calculateBackoff(attempt);
           await sleep(delay);
           continue;
         }
@@ -187,20 +185,14 @@ export async function get<T>(
 /**
  * POST request to the App Store Connect API.
  */
-export async function post<T>(
-  endpoint: string,
-  body: unknown
-): Promise<ApiResponse<T>> {
+export async function post<T>(endpoint: string, body: unknown): Promise<ApiResponse<T>> {
   return makeRequest<T>(endpoint, { method: "POST", body });
 }
 
 /**
  * PATCH request to the App Store Connect API.
  */
-export async function patch<T>(
-  endpoint: string,
-  body: unknown
-): Promise<ApiResponse<T>> {
+export async function patch<T>(endpoint: string, body: unknown): Promise<ApiResponse<T>> {
   return makeRequest<T>(endpoint, { method: "PATCH", body });
 }
 

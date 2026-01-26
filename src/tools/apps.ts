@@ -41,10 +41,7 @@ export const appsTools = {
         .string()
         .optional()
         .describe("Filter apps by name (case-insensitive contains match)"),
-      filter_bundle_id: z
-        .string()
-        .optional()
-        .describe("Filter apps by bundle ID"),
+      filter_bundle_id: z.string().optional().describe("Filter apps by bundle ID"),
       limit: z
         .number()
         .min(1)
@@ -52,11 +49,7 @@ export const appsTools = {
         .default(50)
         .describe("Maximum number of apps to return (1-200)"),
     }),
-    handler: async (input: {
-      filter_name?: string;
-      filter_bundle_id?: string;
-      limit?: number;
-    }) => {
+    handler: async (input: { filter_name?: string; filter_bundle_id?: string; limit?: number }) => {
       const params: Record<string, string | undefined> = {
         limit: String(input.limit ?? 50),
       };
@@ -90,8 +83,7 @@ export const appsTools = {
   },
 
   get_app: {
-    description:
-      "Get detailed information about a specific app by its App Store Connect ID.",
+    description: "Get detailed information about a specific app by its App Store Connect ID.",
     inputSchema: z.object({
       app_id: z.string().describe("The App Store Connect app ID"),
       include: z

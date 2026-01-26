@@ -12,7 +12,7 @@ interface RateLimitInfo {
   lastUpdated: number;
 }
 
-let rateLimitInfo: RateLimitInfo = {
+const rateLimitInfo: RateLimitInfo = {
   hourlyLimit: 3600,
   hourlyRemaining: 3600,
   lastUpdated: Date.now(),
@@ -66,11 +66,7 @@ export function shouldWarnAboutRateLimit(): boolean {
  * @param baseDelay - Base delay in milliseconds (default 1000ms)
  * @param maxDelay - Maximum delay in milliseconds (default 60000ms)
  */
-export function calculateBackoff(
-  attempt: number,
-  baseDelay = 1000,
-  maxDelay = 60000
-): number {
+export function calculateBackoff(attempt: number, baseDelay = 1000, maxDelay = 60000): number {
   // Exponential backoff: 1s, 2s, 4s, 8s, etc.
   const exponentialDelay = baseDelay * Math.pow(2, attempt);
   // Add jitter (0-25% of delay)

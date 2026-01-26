@@ -51,12 +51,7 @@ export const subscriptionsTools = {
       "List subscription groups for an app. Subscription groups contain related subscription products.",
     inputSchema: z.object({
       app_id: z.string().describe("The App Store Connect app ID"),
-      limit: z
-        .number()
-        .min(1)
-        .max(200)
-        .default(50)
-        .describe("Maximum number of groups to return"),
+      limit: z.number().min(1).max(200).default(50).describe("Maximum number of groups to return"),
     }),
     handler: async (input: { app_id: string; limit?: number }) => {
       const params: Record<string, string | undefined> = {
@@ -111,11 +106,7 @@ export const subscriptionsTools = {
         .default(50)
         .describe("Maximum number of subscriptions to return"),
     }),
-    handler: async (input: {
-      subscription_group_id: string;
-      state?: string;
-      limit?: number;
-    }) => {
+    handler: async (input: { subscription_group_id: string; state?: string; limit?: number }) => {
       const params: Record<string, string | undefined> = {
         limit: String(input.limit ?? 50),
       };
@@ -138,11 +129,7 @@ export const subscriptionsTools = {
         content: [
           {
             type: "text" as const,
-            text: JSON.stringify(
-              { subscriptions, total: subscriptions.length },
-              null,
-              2
-            ),
+            text: JSON.stringify({ subscriptions, total: subscriptions.length }, null, 2),
           },
         ],
       };
@@ -173,10 +160,7 @@ export const subscriptionsTools = {
         params.include = input.include.join(",");
       }
 
-      const response = await get<Subscription>(
-        `/subscriptions/${input.subscription_id}`,
-        params
-      );
+      const response = await get<Subscription>(`/subscriptions/${input.subscription_id}`, params);
 
       return {
         content: [
@@ -198,8 +182,7 @@ export const subscriptionsTools = {
   },
 
   list_in_app_purchases: {
-    description:
-      "List in-app purchases for an app. Returns IAP name, product ID, type, and state.",
+    description: "List in-app purchases for an app. Returns IAP name, product ID, type, and state.",
     inputSchema: z.object({
       app_id: z.string().describe("The App Store Connect app ID"),
       type: z
@@ -223,19 +206,9 @@ export const subscriptionsTools = {
         ])
         .optional()
         .describe("Filter by state"),
-      limit: z
-        .number()
-        .min(1)
-        .max(200)
-        .default(50)
-        .describe("Maximum number of IAPs to return"),
+      limit: z.number().min(1).max(200).default(50).describe("Maximum number of IAPs to return"),
     }),
-    handler: async (input: {
-      app_id: string;
-      type?: string;
-      state?: string;
-      limit?: number;
-    }) => {
+    handler: async (input: { app_id: string; type?: string; state?: string; limit?: number }) => {
       const params: Record<string, string | undefined> = {
         limit: String(input.limit ?? 50),
       };
@@ -247,10 +220,7 @@ export const subscriptionsTools = {
         params["filter[state]"] = input.state;
       }
 
-      const response = await get<InAppPurchase[]>(
-        `/apps/${input.app_id}/inAppPurchasesV2`,
-        params
-      );
+      const response = await get<InAppPurchase[]>(`/apps/${input.app_id}/inAppPurchasesV2`, params);
 
       const iaps = response.data.map((iap) => ({
         id: iap.id,
@@ -293,10 +263,7 @@ export const subscriptionsTools = {
         params.include = input.include.join(",");
       }
 
-      const response = await get<InAppPurchase>(
-        `/inAppPurchases/${input.iap_id}`,
-        params
-      );
+      const response = await get<InAppPurchase>(`/inAppPurchases/${input.iap_id}`, params);
 
       return {
         content: [
@@ -318,26 +285,13 @@ export const subscriptionsTools = {
   },
 
   get_subscription_prices: {
-    description:
-      "Get pricing information for a subscription across different territories.",
+    description: "Get pricing information for a subscription across different territories.",
     inputSchema: z.object({
       subscription_id: z.string().describe("The subscription ID"),
-      territory: z
-        .string()
-        .optional()
-        .describe("Filter by territory code (e.g., USA, GBR, JPN)"),
-      limit: z
-        .number()
-        .min(1)
-        .max(200)
-        .default(50)
-        .describe("Maximum number of prices to return"),
+      territory: z.string().optional().describe("Filter by territory code (e.g., USA, GBR, JPN)"),
+      limit: z.number().min(1).max(200).default(50).describe("Maximum number of prices to return"),
     }),
-    handler: async (input: {
-      subscription_id: string;
-      territory?: string;
-      limit?: number;
-    }) => {
+    handler: async (input: { subscription_id: string; territory?: string; limit?: number }) => {
       const params: Record<string, string | undefined> = {
         limit: String(input.limit ?? 50),
       };

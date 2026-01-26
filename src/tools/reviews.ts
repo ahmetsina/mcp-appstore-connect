@@ -35,20 +35,12 @@ export const reviewsTools = {
         .array(z.enum(["1", "2", "3", "4", "5"]))
         .optional()
         .describe("Filter by rating (1-5 stars)"),
-      territory: z
-        .string()
-        .optional()
-        .describe("Filter by territory code (e.g., USA, GBR, JPN)"),
+      territory: z.string().optional().describe("Filter by territory code (e.g., USA, GBR, JPN)"),
       sort: z
         .enum(["createdDate", "-createdDate", "rating", "-rating"])
         .default("-createdDate")
         .describe("Sort order (prefix with - for descending)"),
-      limit: z
-        .number()
-        .min(1)
-        .max(200)
-        .default(50)
-        .describe("Maximum number of reviews to return"),
+      limit: z.number().min(1).max(200).default(50).describe("Maximum number of reviews to return"),
     }),
     handler: async (input: {
       app_id: string;
@@ -69,10 +61,7 @@ export const reviewsTools = {
         params["filter[territory]"] = input.territory;
       }
 
-      const response = await get<CustomerReview[]>(
-        `/apps/${input.app_id}/customerReviews`,
-        params
-      );
+      const response = await get<CustomerReview[]>(`/apps/${input.app_id}/customerReviews`, params);
 
       const reviews = response.data.map((review) => ({
         id: review.id,
@@ -91,8 +80,7 @@ export const reviewsTools = {
   },
 
   get_review: {
-    description:
-      "Get a specific customer review with optional response information.",
+    description: "Get a specific customer review with optional response information.",
     inputSchema: z.object({
       review_id: z.string().describe("The customer review ID"),
       include_response: z
@@ -107,10 +95,7 @@ export const reviewsTools = {
         params.include = "response";
       }
 
-      const response = await get<CustomerReview>(
-        `/customerReviews/${input.review_id}`,
-        params
-      );
+      const response = await get<CustomerReview>(`/customerReviews/${input.review_id}`, params);
 
       return {
         content: [
@@ -136,21 +121,16 @@ export const reviewsTools = {
       "Create or update a response to a customer review. Only one response per review is allowed.",
     inputSchema: z.object({
       review_id: z.string().describe("The customer review ID to respond to"),
-      response_body: z
-        .string()
-        .max(5970)
-        .describe("The response text (max 5970 characters)"),
+      response_body: z.string().max(5970).describe("The response text (max 5970 characters)"),
     }),
     handler: async (input: { review_id: string; response_body: string }) => {
       // First, check if a response already exists
-      const existingResponse = await get<CustomerReview>(
-        `/customerReviews/${input.review_id}`,
-        { include: "response" }
-      );
+      const existingResponse = await get<CustomerReview>(`/customerReviews/${input.review_id}`, {
+        include: "response",
+      });
 
       const responseData = existingResponse.included?.find(
-        (inc: unknown) =>
-          (inc as { type: string }).type === "customerReviewResponses"
+        (inc: unknown) => (inc as { type: string }).type === "customerReviewResponses"
       ) as CustomerReviewResponse | undefined;
 
       if (responseData) {
@@ -208,10 +188,7 @@ export const reviewsTools = {
           },
         };
 
-        const response = await post<CustomerReviewResponse>(
-          "/customerReviewResponses",
-          body
-        );
+        const response = await post<CustomerReviewResponse>("/customerReviewResponses", body);
 
         return {
           content: [

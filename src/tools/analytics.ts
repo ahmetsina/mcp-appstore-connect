@@ -47,10 +47,7 @@ export const analyticsTools = {
         limit: String(input.limit ?? 50),
       };
 
-      const response = await get<AnalyticsReportRequest[]>(
-        "/analyticsReportRequests",
-        params
-      );
+      const response = await get<AnalyticsReportRequest[]>("/analyticsReportRequests", params);
 
       const requests = response.data.map((req) => ({
         id: req.id,
@@ -75,9 +72,7 @@ export const analyticsTools = {
       app_id: z.string().describe("The App Store Connect app ID"),
       access_type: z
         .enum(["ONE_TIME_SNAPSHOT", "ONGOING"])
-        .describe(
-          "ONE_TIME_SNAPSHOT for historical data, ONGOING for continuous access"
-        ),
+        .describe("ONE_TIME_SNAPSHOT for historical data, ONGOING for continuous access"),
     }),
     handler: async (input: { app_id: string; access_type: string }) => {
       const body = {
@@ -97,10 +92,7 @@ export const analyticsTools = {
         },
       };
 
-      const response = await post<AnalyticsReportRequest>(
-        "/analyticsReportRequests",
-        body
-      );
+      const response = await post<AnalyticsReportRequest>("/analyticsReportRequests", body);
 
       return {
         content: [
@@ -129,27 +121,12 @@ export const analyticsTools = {
     inputSchema: z.object({
       report_request_id: z.string().describe("The analytics report request ID"),
       category: z
-        .enum([
-          "APP_USAGE",
-          "APP_STORE_ENGAGEMENT",
-          "COMMERCE",
-          "FRAMEWORK_USAGE",
-          "PERFORMANCE",
-        ])
+        .enum(["APP_USAGE", "APP_STORE_ENGAGEMENT", "COMMERCE", "FRAMEWORK_USAGE", "PERFORMANCE"])
         .optional()
         .describe("Filter by report category"),
-      limit: z
-        .number()
-        .min(1)
-        .max(200)
-        .default(50)
-        .describe("Maximum number of reports to return"),
+      limit: z.number().min(1).max(200).default(50).describe("Maximum number of reports to return"),
     }),
-    handler: async (input: {
-      report_request_id: string;
-      category?: string;
-      limit?: number;
-    }) => {
+    handler: async (input: { report_request_id: string; category?: string; limit?: number }) => {
       const params: Record<string, string | undefined> = {
         limit: String(input.limit ?? 50),
       };
@@ -183,9 +160,7 @@ export const analyticsTools = {
     description:
       "Get information about available sales and trends reports. Note: Actual report download requires handling gzip data.",
     inputSchema: z.object({
-      vendor_number: z
-        .string()
-        .describe("Your vendor number from App Store Connect"),
+      vendor_number: z.string().describe("Your vendor number from App Store Connect"),
       report_type: z
         .enum([
           "SALES",
@@ -200,14 +175,20 @@ export const analyticsTools = {
         ])
         .describe("Type of sales report"),
       report_sub_type: z
-        .enum(["SUMMARY", "DETAILED", "SUMMARY_INSTALL_TYPE", "SUMMARY_TERRITORY", "SUMMARY_CHANNEL"])
+        .enum([
+          "SUMMARY",
+          "DETAILED",
+          "SUMMARY_INSTALL_TYPE",
+          "SUMMARY_TERRITORY",
+          "SUMMARY_CHANNEL",
+        ])
         .describe("Sub-type of the report"),
-      frequency: z
-        .enum(["DAILY", "WEEKLY", "MONTHLY", "YEARLY"])
-        .describe("Report frequency"),
+      frequency: z.enum(["DAILY", "WEEKLY", "MONTHLY", "YEARLY"]).describe("Report frequency"),
       report_date: z
         .string()
-        .describe("Report date in format YYYY-MM-DD (daily), YYYYMMDD (weekly uses Sunday date), YYYY-MM (monthly)"),
+        .describe(
+          "Report date in format YYYY-MM-DD (daily), YYYYMMDD (weekly uses Sunday date), YYYY-MM (monthly)"
+        ),
     }),
     handler: async (input: {
       vendor_number: string;
@@ -250,19 +231,11 @@ export const analyticsTools = {
     description:
       "Get information about available finance reports. Finance reports contain earnings, payments, and tax data.",
     inputSchema: z.object({
-      vendor_number: z
-        .string()
-        .describe("Your vendor number from App Store Connect"),
-      region_code: z
-        .string()
-        .describe("Two-letter region code (e.g., US, EU, JP)"),
-      report_type: z
-        .enum(["FINANCIAL", "FINANCE_DETAIL"])
-        .describe("Type of finance report"),
+      vendor_number: z.string().describe("Your vendor number from App Store Connect"),
+      region_code: z.string().describe("Two-letter region code (e.g., US, EU, JP)"),
+      report_type: z.enum(["FINANCIAL", "FINANCE_DETAIL"]).describe("Type of finance report"),
       fiscal_year: z.string().describe("Fiscal year (e.g., 2024)"),
-      fiscal_period: z
-        .string()
-        .describe("Fiscal period within the year (e.g., 01-12)"),
+      fiscal_period: z.string().describe("Fiscal period within the year (e.g., 01-12)"),
     }),
     handler: async (input: {
       vendor_number: string;

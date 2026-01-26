@@ -54,12 +54,7 @@ export const testflightTools = {
         .optional()
         .describe("Filter by processing state"),
       expired: z.boolean().optional().describe("Filter by expiration status"),
-      limit: z
-        .number()
-        .min(1)
-        .max(200)
-        .default(50)
-        .describe("Maximum number of builds to return"),
+      limit: z.number().min(1).max(200).default(50).describe("Maximum number of builds to return"),
     }),
     handler: async (input: {
       app_id: string;
@@ -142,12 +137,7 @@ export const testflightTools = {
       app_id: z.string().optional().describe("Filter by app ID"),
       beta_group_id: z.string().optional().describe("Filter by beta group ID"),
       email: z.string().optional().describe("Filter by tester email"),
-      limit: z
-        .number()
-        .min(1)
-        .max(200)
-        .default(50)
-        .describe("Maximum number of testers to return"),
+      limit: z.number().min(1).max(200).default(50).describe("Maximum number of testers to return"),
     }),
     handler: async (input: {
       app_id?: string;
@@ -194,9 +184,7 @@ export const testflightTools = {
       email: z.string().email().describe("Email address of the beta tester"),
       first_name: z.string().optional().describe("Tester's first name"),
       last_name: z.string().optional().describe("Tester's last name"),
-      beta_group_id: z
-        .string()
-        .describe("The beta group ID to add the tester to"),
+      beta_group_id: z.string().describe("The beta group ID to add the tester to"),
     }),
     handler: async (input: {
       email: string;
@@ -280,22 +268,10 @@ export const testflightTools = {
       "List beta groups for an app. Returns group name, whether it's internal, public link info, and creation date.",
     inputSchema: z.object({
       app_id: z.string().describe("The App Store Connect app ID"),
-      is_internal: z
-        .boolean()
-        .optional()
-        .describe("Filter by internal/external group type"),
-      limit: z
-        .number()
-        .min(1)
-        .max(200)
-        .default(50)
-        .describe("Maximum number of groups to return"),
+      is_internal: z.boolean().optional().describe("Filter by internal/external group type"),
+      limit: z.number().min(1).max(200).default(50).describe("Maximum number of groups to return"),
     }),
-    handler: async (input: {
-      app_id: string;
-      is_internal?: boolean;
-      limit?: number;
-    }) => {
+    handler: async (input: { app_id: string; is_internal?: boolean; limit?: number }) => {
       const params: Record<string, string | undefined> = {
         "filter[app]": input.app_id,
         limit: String(input.limit ?? 50),
