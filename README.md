@@ -10,6 +10,12 @@ An MCP (Model Context Protocol) server for Apple's App Store Connect API. This s
 - **Analytics**: Access sales reports, finance reports, and analytics data
 - **Version Management**: Create versions, update metadata, submit for review
 - **Subscriptions & IAP**: Manage subscription groups, in-app purchases, and pricing
+- **Metadata Management**: Update app descriptions, keywords, what's new, app name, subtitle, privacy policy
+- **Build Management**: Set builds for versions, submit for beta review, manage beta localizations
+- **App Review**: Configure review details, age ratings, and phased releases
+- **Pricing & Availability**: Set app pricing, categories, and territory availability
+
+**54 tools** available for comprehensive App Store Connect automation.
 
 ## Prerequisites
 
@@ -173,6 +179,54 @@ npm run dev
 | `get_in_app_purchase` | Get IAP details |
 | `get_subscription_prices` | Get pricing info |
 
+### Metadata (Version & App Info Localizations)
+| Tool | Description |
+|------|-------------|
+| `update_version_localization` | Update description, keywords, what's new, promotional text, URLs |
+| `create_version_localization` | Create localization for a new language |
+| `get_app_info` | Get app info ID for app-level localizations |
+| `list_app_info_localizations` | List localizations (name, subtitle, privacy policy) |
+| `update_app_info_localization` | Update app name, subtitle, privacy policy |
+| `create_app_info_localization` | Create app info localization for new language |
+
+### Build Management
+| Tool | Description |
+|------|-------------|
+| `update_build` | Update build attributes (export compliance) |
+| `set_build_for_version` | Associate a build with an App Store version |
+| `submit_build_for_beta_review` | Submit build for TestFlight beta review |
+| `get_beta_review_status` | Get beta app review submission status |
+| `list_beta_build_localizations` | List "What to Test" notes |
+| `update_beta_build_localization` | Update "What to Test" notes |
+| `create_beta_build_localization` | Create "What to Test" for new locale |
+| `add_build_to_beta_group` | Add build to TestFlight group |
+| `remove_build_from_beta_group` | Remove build from beta group |
+
+### App Review & Submission
+| Tool | Description |
+|------|-------------|
+| `get_app_store_review_detail` | Get review details (contact, demo account, notes) |
+| `update_app_store_review_detail` | Update review details for submission |
+| `create_app_store_review_detail` | Create review details for a version |
+| `get_age_rating_declaration` | Get age rating settings |
+| `update_age_rating_declaration` | Update age rating content declarations |
+| `get_phased_release` | Get phased release status |
+| `create_phased_release` | Create phased release (gradual rollout) |
+| `update_phased_release` | Pause, resume, or complete phased release |
+| `delete_phased_release` | Delete phased release configuration |
+
+### Pricing & Categories
+| Tool | Description |
+|------|-------------|
+| `list_app_categories` | List available App Store categories |
+| `update_app_categories` | Update app's primary/secondary categories |
+| `list_territories` | List all territories with currency codes |
+| `list_app_price_points` | List price points for an app in a territory |
+| `get_app_price_schedule` | Get current price schedule |
+| `set_app_price_schedule` | Set app pricing |
+| `get_app_availability` | Get territories where app is available |
+| `set_app_availability` | Set app availability by territory |
+
 ## Resources
 
 The server also exposes MCP resources:
@@ -208,6 +262,12 @@ npm run dev
 
 # Type check
 npm run typecheck
+
+# Run tests
+npm test
+
+# Lint
+npm run lint
 
 # Build for production
 npm run build
