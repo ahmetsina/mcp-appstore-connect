@@ -23,8 +23,23 @@ An MCP (Model Context Protocol) server for Apple's App Store Connect API. This s
 
 ## Installation
 
+### Install from npm (Recommended)
+
+```bash
+npm install -g mcp-appstore-connect
+```
+
+Or install locally in your project:
+
+```bash
+npm install mcp-appstore-connect
+```
+
+### Install from source
+
 ```bash
 # Clone or download this repository
+git clone https://github.com/ahmetsina/mcp-appstore-connect.git
 cd mcp-appstore-connect
 
 # Install dependencies
@@ -56,6 +71,28 @@ APP_STORE_PRIVATE_KEY_PATH=/path/to/AuthKey_XXXXXXXXXX.p8
 ```
 
 ## Usage with Claude Code
+
+### If installed via npm (global)
+
+Add to your Claude Code MCP settings (`~/.cursor/mcp.json` on macOS):
+
+```json
+{
+  "mcpServers": {
+    "appstore-connect": {
+      "command": "npx",
+      "args": ["-y", "mcp-appstore-connect"],
+      "env": {
+        "APP_STORE_ISSUER_ID": "your-issuer-id",
+        "APP_STORE_KEY_ID": "your-key-id",
+        "APP_STORE_PRIVATE_KEY_PATH": "/path/to/AuthKey.p8"
+      }
+    }
+  }
+}
+```
+
+### If installed from source
 
 Add to your Claude Code MCP settings:
 
