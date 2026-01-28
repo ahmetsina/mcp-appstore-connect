@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-01-28
+
+### Added
+- Comprehensive installation instructions for multiple AI agents:
+  - Claude Code (CLI and manual)
+  - Cursor
+  - Windsurf
+  - Claude Desktop
+- Required environment variables table
+- Troubleshooting section
+- npm and license badges
+
+### Changed
+- Improved README structure and documentation
+- Updated server version to 1.2.0
+
 ## [1.1.0] - 2025-01-28
 
 ### Added

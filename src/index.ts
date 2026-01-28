@@ -24,7 +24,7 @@ import { appResources, appResourceTemplates } from "./resources/app-info.js";
 // Create MCP server
 const server = new McpServer({
   name: "mcp-appstore-connect",
-  version: "1.1.0",
+  version: "1.2.0",
 });
 
 /**
