@@ -1,16 +1,31 @@
 {
   "name": "mcp-appstore-connect",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server for Apple App Store Connect API",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "mcp-appstore-connect": "./dist/index.js"
+    "mcp-appstore-connect": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmetsina/mcp-appstore-connect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ahmetsina/mcp-appstore-connect/issues"
+  },
+  "homepage": "https://github.com/ahmetsina/mcp-appstore-connect#readme",
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
+    "prepublishOnly": "npm run build && npm run test:run",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
@@ -29,7 +44,7 @@
     "ios",
     "testflight"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "Ahmet Sina Ustem <asend.ustem@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",

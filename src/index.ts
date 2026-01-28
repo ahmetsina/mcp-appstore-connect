@@ -13,6 +13,10 @@ import { reviewsTools } from "./tools/reviews.js";
 import { analyticsTools } from "./tools/analytics.js";
 import { versionsTools } from "./tools/versions.js";
 import { subscriptionsTools } from "./tools/subscriptions.js";
+import { metadataTools } from "./tools/metadata.js";
+import { buildsTools } from "./tools/builds.js";
+import { reviewTools } from "./tools/review.js";
+import { pricingTools } from "./tools/pricing.js";
 
 // Import resources
 import { appResources, appResourceTemplates } from "./resources/app-info.js";
@@ -257,6 +261,234 @@ function registerTools() {
     subscriptionsTools.get_subscription_prices.description,
     subscriptionsTools.get_subscription_prices.inputSchema.shape,
     wrapHandler(subscriptionsTools.get_subscription_prices.handler)
+  );
+
+  // Metadata tools (App Store version localizations and app info localizations)
+  server.tool(
+    "update_version_localization",
+    metadataTools.update_version_localization.description,
+    metadataTools.update_version_localization.inputSchema.shape,
+    wrapHandler(metadataTools.update_version_localization.handler)
+  );
+
+  server.tool(
+    "create_version_localization",
+    metadataTools.create_version_localization.description,
+    metadataTools.create_version_localization.inputSchema.shape,
+    wrapHandler(metadataTools.create_version_localization.handler)
+  );
+
+  server.tool(
+    "get_app_info",
+    metadataTools.get_app_info.description,
+    metadataTools.get_app_info.inputSchema.shape,
+    wrapHandler(metadataTools.get_app_info.handler)
+  );
+
+  server.tool(
+    "list_app_info_localizations",
+    metadataTools.list_app_info_localizations.description,
+    metadataTools.list_app_info_localizations.inputSchema.shape,
+    wrapHandler(metadataTools.list_app_info_localizations.handler)
+  );
+
+  server.tool(
+    "update_app_info_localization",
+    metadataTools.update_app_info_localization.description,
+    metadataTools.update_app_info_localization.inputSchema.shape,
+    wrapHandler(metadataTools.update_app_info_localization.handler)
+  );
+
+  server.tool(
+    "create_app_info_localization",
+    metadataTools.create_app_info_localization.description,
+    metadataTools.create_app_info_localization.inputSchema.shape,
+    wrapHandler(metadataTools.create_app_info_localization.handler)
+  );
+
+  // Build management tools
+  server.tool(
+    "update_build",
+    buildsTools.update_build.description,
+    buildsTools.update_build.inputSchema.shape,
+    wrapHandler(buildsTools.update_build.handler)
+  );
+
+  server.tool(
+    "set_build_for_version",
+    buildsTools.set_build_for_version.description,
+    buildsTools.set_build_for_version.inputSchema.shape,
+    wrapHandler(buildsTools.set_build_for_version.handler)
+  );
+
+  server.tool(
+    "submit_build_for_beta_review",
+    buildsTools.submit_build_for_beta_review.description,
+    buildsTools.submit_build_for_beta_review.inputSchema.shape,
+    wrapHandler(buildsTools.submit_build_for_beta_review.handler)
+  );
+
+  server.tool(
+    "get_beta_review_status",
+    buildsTools.get_beta_review_status.description,
+    buildsTools.get_beta_review_status.inputSchema.shape,
+    wrapHandler(buildsTools.get_beta_review_status.handler)
+  );
+
+  server.tool(
+    "list_beta_build_localizations",
+    buildsTools.list_beta_build_localizations.description,
+    buildsTools.list_beta_build_localizations.inputSchema.shape,
+    wrapHandler(buildsTools.list_beta_build_localizations.handler)
+  );
+
+  server.tool(
+    "update_beta_build_localization",
+    buildsTools.update_beta_build_localization.description,
+    buildsTools.update_beta_build_localization.inputSchema.shape,
+    wrapHandler(buildsTools.update_beta_build_localization.handler)
+  );
+
+  server.tool(
+    "create_beta_build_localization",
+    buildsTools.create_beta_build_localization.description,
+    buildsTools.create_beta_build_localization.inputSchema.shape,
+    wrapHandler(buildsTools.create_beta_build_localization.handler)
+  );
+
+  server.tool(
+    "add_build_to_beta_group",
+    buildsTools.add_build_to_beta_group.description,
+    buildsTools.add_build_to_beta_group.inputSchema.shape,
+    wrapHandler(buildsTools.add_build_to_beta_group.handler)
+  );
+
+  server.tool(
+    "remove_build_from_beta_group",
+    buildsTools.remove_build_from_beta_group.description,
+    buildsTools.remove_build_from_beta_group.inputSchema.shape,
+    wrapHandler(buildsTools.remove_build_from_beta_group.handler)
+  );
+
+  // App review and submission tools
+  server.tool(
+    "get_app_store_review_detail",
+    reviewTools.get_app_store_review_detail.description,
+    reviewTools.get_app_store_review_detail.inputSchema.shape,
+    wrapHandler(reviewTools.get_app_store_review_detail.handler)
+  );
+
+  server.tool(
+    "update_app_store_review_detail",
+    reviewTools.update_app_store_review_detail.description,
+    reviewTools.update_app_store_review_detail.inputSchema.shape,
+    wrapHandler(reviewTools.update_app_store_review_detail.handler)
+  );
+
+  server.tool(
+    "create_app_store_review_detail",
+    reviewTools.create_app_store_review_detail.description,
+    reviewTools.create_app_store_review_detail.inputSchema.shape,
+    wrapHandler(reviewTools.create_app_store_review_detail.handler)
+  );
+
+  server.tool(
+    "get_age_rating_declaration",
+    reviewTools.get_age_rating_declaration.description,
+    reviewTools.get_age_rating_declaration.inputSchema.shape,
+    wrapHandler(reviewTools.get_age_rating_declaration.handler)
+  );
+
+  server.tool(
+    "update_age_rating_declaration",
+    reviewTools.update_age_rating_declaration.description,
+    reviewTools.update_age_rating_declaration.inputSchema.shape,
+    wrapHandler(reviewTools.update_age_rating_declaration.handler)
+  );
+
+  server.tool(
+    "get_phased_release",
+    reviewTools.get_phased_release.description,
+    reviewTools.get_phased_release.inputSchema.shape,
+    wrapHandler(reviewTools.get_phased_release.handler)
+  );
+
+  server.tool(
+    "create_phased_release",
+    reviewTools.create_phased_release.description,
+    reviewTools.create_phased_release.inputSchema.shape,
+    wrapHandler(reviewTools.create_phased_release.handler)
+  );
+
+  server.tool(
+    "update_phased_release",
+    reviewTools.update_phased_release.description,
+    reviewTools.update_phased_release.inputSchema.shape,
+    wrapHandler(reviewTools.update_phased_release.handler)
+  );
+
+  server.tool(
+    "delete_phased_release",
+    reviewTools.delete_phased_release.description,
+    reviewTools.delete_phased_release.inputSchema.shape,
+    wrapHandler(reviewTools.delete_phased_release.handler)
+  );
+
+  // Pricing and categories tools
+  server.tool(
+    "list_app_categories",
+    pricingTools.list_app_categories.description,
+    pricingTools.list_app_categories.inputSchema.shape,
+    wrapHandler(pricingTools.list_app_categories.handler)
+  );
+
+  server.tool(
+    "update_app_categories",
+    pricingTools.update_app_categories.description,
+    pricingTools.update_app_categories.inputSchema.shape,
+    wrapHandler(pricingTools.update_app_categories.handler)
+  );
+
+  server.tool(
+    "list_territories",
+    pricingTools.list_territories.description,
+    pricingTools.list_territories.inputSchema.shape,
+    wrapHandler(pricingTools.list_territories.handler)
+  );
+
+  server.tool(
+    "list_app_price_points",
+    pricingTools.list_app_price_points.description,
+    pricingTools.list_app_price_points.inputSchema.shape,
+    wrapHandler(pricingTools.list_app_price_points.handler)
+  );
+
+  server.tool(
+    "get_app_price_schedule",
+    pricingTools.get_app_price_schedule.description,
+    pricingTools.get_app_price_schedule.inputSchema.shape,
+    wrapHandler(pricingTools.get_app_price_schedule.handler)
+  );
+
+  server.tool(
+    "set_app_price_schedule",
+    pricingTools.set_app_price_schedule.description,
+    pricingTools.set_app_price_schedule.inputSchema.shape,
+    wrapHandler(pricingTools.set_app_price_schedule.handler)
+  );
+
+  server.tool(
+    "get_app_availability",
+    pricingTools.get_app_availability.description,
+    pricingTools.get_app_availability.inputSchema.shape,
+    wrapHandler(pricingTools.get_app_availability.handler)
+  );
+
+  server.tool(
+    "set_app_availability",
+    pricingTools.set_app_availability.description,
+    pricingTools.set_app_availability.inputSchema.shape,
+    wrapHandler(pricingTools.set_app_availability.handler)
   );
 }
 

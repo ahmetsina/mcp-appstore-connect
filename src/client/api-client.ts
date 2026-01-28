@@ -199,8 +199,8 @@ export async function patch<T>(endpoint: string, body: unknown): Promise<ApiResp
 /**
  * DELETE request to the App Store Connect API.
  */
-export async function del<T>(endpoint: string): Promise<ApiResponse<T>> {
-  return makeRequest<T>(endpoint, { method: "DELETE" });
+export async function del<T>(endpoint: string, body?: unknown): Promise<ApiResponse<T>> {
+  return makeRequest<T>(endpoint, { method: "DELETE", body });
 }
 
 /**
