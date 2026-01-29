@@ -265,11 +265,18 @@ export const versionsTools = {
       locale: z.string().optional().describe("Filter by locale (e.g., en-US, ja, fr-FR)"),
     }),
     handler: async (input: { version_id: string; locale?: string }) => {
-      const params: Record<string, string | undefined> = {};
+      // Use include parameter to get localizations via GET_INSTANCE instead of GET_COLLECTION
+      // The API doesn't allow direct GET_COLLECTION on appStoreVersionLocalizations
+      const params: Record<string, string | undefined> = {
+        include: "appStoreVersionLocalizations",
+        "fields[appStoreVersionLocalizations]":
+          "locale,description,keywords,whatsNew,promotionalText,marketingUrl,supportUrl",
+      };
 
-      if (input.locale) {
-        params["filter[locale]"] = input.locale;
-      }
+      const response = await get<AppStoreVersion>(
+        `/appStoreVersions/${input.version_id}`,
+        params
+      );
 
       interface LocalizationData {
         type: "appStoreVersionLocalizations";
@@ -285,15 +292,18 @@ export const versionsTools = {
         };
       }
 
-      const response = await get<LocalizationData[]>(
-        `/appStoreVersions/${input.version_id}/appStoreVersionLocalizations`,
-        params
-      );
+      // Extract localizations from included data
+      let localizations = ((response.included as LocalizationData[] | undefined) || [])
+        .filter((item) => item.type === "appStoreVersionLocalizations")
+        .map((loc) => ({
+          id: loc.id,
+          ...loc.attributes,
+        }));
 
-      const localizations = response.data.map((loc) => ({
-        id: loc.id,
-        ...loc.attributes,
-      }));
+      // Apply client-side filtering for locale if specified
+      if (input.locale) {
+        localizations = localizations.filter((loc) => loc.locale === input.locale);
+      }
 
       return {
         content: [
