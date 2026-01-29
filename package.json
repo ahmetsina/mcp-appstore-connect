@@ -1,6 +1,6 @@
 {
   "name": "mcp-appstore-connect",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "MCP server for Apple App Store Connect API",
   "type": "module",
   "main": "dist/index.js",
