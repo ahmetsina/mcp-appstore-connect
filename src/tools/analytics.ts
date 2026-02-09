@@ -43,11 +43,13 @@ export const analyticsTools = {
     }),
     handler: async (input: { app_id: string; limit?: number }) => {
       const params: Record<string, string | undefined> = {
-        "filter[app]": input.app_id,
         limit: String(input.limit ?? 50),
       };
 
-      const response = await get<AnalyticsReportRequest[]>("/analyticsReportRequests", params);
+      const response = await get<AnalyticsReportRequest[]>(
+        `/apps/${input.app_id}/analyticsReportRequests`,
+        params
+      );
 
       const requests = response.data.map((req) => ({
         id: req.id,

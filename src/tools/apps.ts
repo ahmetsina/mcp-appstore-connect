@@ -163,43 +163,27 @@ export const appsTools = {
       state?: string;
       limit?: number;
     }) => {
-      // Use include parameter to get versions via GET_INSTANCE instead of GET_COLLECTION
-      // The API doesn't allow direct GET_COLLECTION on appStoreVersions
       const params: Record<string, string | undefined> = {
-        include: "appStoreVersions",
         "fields[appStoreVersions]": "platform,versionString,appStoreState,releaseType,createdDate",
-        "limit[appStoreVersions]": String(input.limit ?? 50),
+        limit: String(input.limit ?? 50),
       };
 
-      const response = await get<App>(`/apps/${input.app_id}`, params);
-
-      // Extract versions from included data
-      interface IncludedVersion {
-        type: string;
-        id: string;
-        attributes: {
-          platform: string;
-          versionString: string;
-          appStoreState: string;
-          releaseType?: string;
-          createdDate: string;
-        };
-      }
-
-      let versions = ((response.included as IncludedVersion[] | undefined) || [])
-        .filter((item) => item.type === "appStoreVersions")
-        .map((version) => ({
-          id: version.id,
-          ...version.attributes,
-        }));
-
-      // Apply client-side filtering for platform and state
       if (input.platform) {
-        versions = versions.filter((v) => v.platform === input.platform);
+        params["filter[platform]"] = input.platform;
       }
       if (input.state) {
-        versions = versions.filter((v) => v.appStoreState === input.state);
+        params["filter[appStoreState]"] = input.state;
       }
+
+      const response = await get<AppStoreVersion[]>(
+        `/apps/${input.app_id}/appStoreVersions`,
+        params
+      );
+
+      const versions = response.data.map((version) => ({
+        id: version.id,
+        ...version.attributes,
+      }));
 
       return {
         content: [

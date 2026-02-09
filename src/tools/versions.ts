@@ -257,28 +257,15 @@ export const versionsTools = {
     },
   },
 
-  get_version_localization: {
+  list_app_store_version_localizations: {
     description:
-      "Get localization information for an App Store version (what's new, description, etc.).",
+      "List localization information for an App Store version (what's new, description, etc.).",
     inputSchema: z.object({
       version_id: z.string().describe("The App Store version ID"),
       locale: z.string().optional().describe("Filter by locale (e.g., en-US, ja, fr-FR)"),
     }),
     handler: async (input: { version_id: string; locale?: string }) => {
-      // Use include parameter to get localizations via GET_INSTANCE instead of GET_COLLECTION
-      // The API doesn't allow direct GET_COLLECTION on appStoreVersionLocalizations
-      const params: Record<string, string | undefined> = {
-        include: "appStoreVersionLocalizations",
-        "fields[appStoreVersionLocalizations]":
-          "locale,description,keywords,whatsNew,promotionalText,marketingUrl,supportUrl",
-      };
-
-      const response = await get<AppStoreVersion>(
-        `/appStoreVersions/${input.version_id}`,
-        params
-      );
-
-      interface LocalizationData {
+      interface AppStoreVersionLocalization {
         type: "appStoreVersionLocalizations";
         id: string;
         attributes: {
@@ -292,18 +279,24 @@ export const versionsTools = {
         };
       }
 
-      // Extract localizations from included data
-      let localizations = ((response.included as LocalizationData[] | undefined) || [])
-        .filter((item) => item.type === "appStoreVersionLocalizations")
-        .map((loc) => ({
-          id: loc.id,
-          ...loc.attributes,
-        }));
+      const params: Record<string, string | undefined> = {
+        "fields[appStoreVersionLocalizations]":
+          "locale,description,keywords,whatsNew,promotionalText,marketingUrl,supportUrl",
+      };
 
-      // Apply client-side filtering for locale if specified
       if (input.locale) {
-        localizations = localizations.filter((loc) => loc.locale === input.locale);
+        params["filter[locale]"] = input.locale;
       }
+
+      const response = await get<AppStoreVersionLocalization[]>(
+        `/appStoreVersions/${input.version_id}/appStoreVersionLocalizations`,
+        params
+      );
+
+      const localizations = response.data.map((loc) => ({
+        id: loc.id,
+        ...loc.attributes,
+      }));
 
       return {
         content: [

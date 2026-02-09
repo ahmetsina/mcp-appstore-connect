@@ -214,10 +214,10 @@ function registerTools() {
   );
 
   server.tool(
-    "get_version_localization",
-    versionsTools.get_version_localization.description,
-    versionsTools.get_version_localization.inputSchema.shape,
-    wrapHandler(versionsTools.get_version_localization.handler)
+    "list_app_store_version_localizations",
+    versionsTools.list_app_store_version_localizations.description,
+    versionsTools.list_app_store_version_localizations.inputSchema.shape,
+    wrapHandler(versionsTools.list_app_store_version_localizations.handler)
   );
 
   // Subscriptions tools
